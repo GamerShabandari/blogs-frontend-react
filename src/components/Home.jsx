@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function Home() {
 
@@ -13,9 +13,19 @@ export function Home() {
     const [usersBlogs, setUsersBlogs] = useState([]);
     const [newBlogTitle, setNewBlogTitle] = useState("");
     const [newBlogText, setNewBlogText] = useState("");
-
+    const [blogsUpdated, setBlogsUpdated] = useState(false);
+    const [showEditBookingForm, setShowEditBookingForm] = useState(false);
     const [myUserId, setMyUserId] = useState(""); /////// OBS!  ändra den här till localstorage senare //////////
 
+
+    useEffect(()=>{
+
+        fetchUsersBlogs(myUserId)
+
+    }, [blogsUpdated])
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function handleNameInput(e) {
         setUsername(e.target.value)
@@ -106,6 +116,11 @@ export function Home() {
                     console.log(response.data);
                     setNewBlogTitle("");
                     setNewBlogText("");
+
+                    setBlogsUpdated(true);
+                    setTimeout(() => {
+                        setBlogsUpdated(false)
+                    }, 1000)
                 })
                 .catch(error => {
                     console.log(error);
@@ -119,8 +134,19 @@ export function Home() {
         axios.delete("http://localhost:4000/blogs/" + blogId)
             .then(response => {
                 console.log(response.data);
+                setBlogsUpdated(true);
+                    setTimeout(() => {
+                        setBlogsUpdated(false)
+                    }, 1000)
             })
     }
+
+    function editBlog(blogId){
+        setShowEditBookingForm(true);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let usersBlogsListHtml = usersBlogs.map((blog, i) => {
         return (<div className="blogCard" key={i}>
@@ -128,9 +154,13 @@ export function Home() {
             <div>{blog.text}</div>
             <h6>{blog.created}</h6>
             <button onClick={()=>{deleteBlog(blog.id)}}>X</button>
-            <button>edit</button>
+            <button onClick={()=>{editBlog(blog.id)}}>edit</button>
         </div>)
     })
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (<>
         <header>
@@ -138,6 +168,8 @@ export function Home() {
             {loggedIn && <h2>Välkommen {yourName}</h2> }
         </header>
         <main>
+            {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div> }
+            {showEditBookingForm && <div className="editFormContainer"><input type="text" placeholder="title"/><textarea cols="30" rows="10" placeholder="text"></textarea><button>save</button><button onClick={()=>{setShowEditBookingForm(false);}}>cancel</button></div> }
             {!loggedIn && <div>
                 <form>
                     <h4>First time here? Create an account!</h4>

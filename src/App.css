@@ -1,3 +1,7 @@
+main{
+  position: relative;
+}
+
 .createBlogContainer{
   display: flex;
   flex-direction: column;
@@ -24,4 +28,14 @@
 .blogCard:hover{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   transform: scale(1.01);
+}
+
+.editFormContainer{
+  border: 2px solid red;
+  background-color: whitesmoke;
+  position: absolute;
+  width: 90%;
+  height: 80vh;
+  z-index: 99;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
