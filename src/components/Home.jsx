@@ -13,8 +13,12 @@ export function Home() {
     const [usersBlogs, setUsersBlogs] = useState([]);
     const [newBlogTitle, setNewBlogTitle] = useState("");
     const [newBlogText, setNewBlogText] = useState("");
+    const [editBlogTitle, setEditBlogTitle] = useState("");
+    const [editBlogText, setEditBlogText] = useState("");
     const [blogsUpdated, setBlogsUpdated] = useState(false);
     const [showEditBookingForm, setShowEditBookingForm] = useState(false);
+
+
     const [myUserId, setMyUserId] = useState(""); /////// OBS!  ändra den här till localstorage senare //////////
 
 
@@ -141,8 +145,19 @@ export function Home() {
             })
     }
 
-    function editBlog(blogId){
+    function editBlog(index){
         setShowEditBookingForm(true);
+
+        setEditBlogTitle(usersBlogs[index].title)
+        setEditBlogText(usersBlogs[index].text)
+    }
+
+    function handleEditBlogTitle(e) {
+        setEditBlogTitle(e.target.value)
+    }
+
+    function handleEditBlogText(e) {
+        setEditBlogText(e.target.value)
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,7 +169,7 @@ export function Home() {
             <div>{blog.text}</div>
             <h6>{blog.created}</h6>
             <button onClick={()=>{deleteBlog(blog.id)}}>X</button>
-            <button onClick={()=>{editBlog(blog.id)}}>edit</button>
+            <button onClick={()=>{editBlog(i)}}>edit</button>
         </div>)
     })
 
@@ -169,7 +184,9 @@ export function Home() {
         </header>
         <main>
             {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div> }
-            {showEditBookingForm && <div className="editFormContainer"><input type="text" placeholder="title"/><textarea cols="30" rows="10" placeholder="text"></textarea><button>save</button><button onClick={()=>{setShowEditBookingForm(false);}}>cancel</button></div> }
+
+            {showEditBookingForm && <div className="editFormContainer"><input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle}/><textarea cols="30" rows="10" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea><button>save</button><button onClick={()=>{setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("")}}>cancel</button></div> }
+
             {!loggedIn && <div>
                 <form>
                     <h4>First time here? Create an account!</h4>
