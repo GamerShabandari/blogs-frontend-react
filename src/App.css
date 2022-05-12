@@ -20,15 +20,77 @@ main{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  width: 100%;
   border: 2px solid red;
 }
 
+.createBlogForm input, textarea{
+  border: 1px solid yellow;
+  border: none;
+  border-radius: 5px;
+  width: 90%;
+  padding: 10px;
+}
+
 .blogCard{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
-  padding: 20px;
+  border-radius: 5px;
+  padding: 40px;
   margin: 20px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
+}
+.blogCard h3{
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-decoration: underline;
+}
+
+.blogCard div{
+  font-weight: 200;
+  line-height: 25px;
+}
+
+.blogCard h6{
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.deleteBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color:indianred;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.editBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color:indianred;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .blogCard:hover{
@@ -38,10 +100,59 @@ main{
 
 .editFormContainer{
   border: 2px solid red;
-  background-color: whitesmoke;
+  background-color: white;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   width: 90%;
   height: 80vh;
+  padding: 10px;
   z-index: 99;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.editFormContainer textarea{
+  border: 2px solid blue;
+}
+.editFormContainer input{
+  border: 2px solid blue;
+  width: 80%;
+  padding: 5px;
+}
+
+.usersListContainer{
+  padding: 20px;
+  border: 1px solid yellow;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.userContainer{
+  border: 2px solid purple;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+  transition: 0.2s;
+}
+.userContainer:hover{
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+.Btn{
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+}
+.Btn:hover{
+  border: 1px solid black;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
