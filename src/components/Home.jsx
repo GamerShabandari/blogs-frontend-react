@@ -19,27 +19,43 @@ export function Home() {
     const [editBlogID, setEditBlogID] = useState("");
     const [blogsUpdated, setBlogsUpdated] = useState(false);
     const [showEditBookingForm, setShowEditBookingForm] = useState(false);
+    const [myUserId, setMyUserId] = useState("");
 
 
-    const [myUserId, setMyUserId] = useState(""); /////// OBS!  ändra den här till localstorage senare //////////
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     useEffect(() => {
 
         if (myUserId.length > 0) {
+
             fetchUsersBlogs(myUserId)
         }
 
-        if (myUserId === ""){
+        if (myUserId === "") {
             fetchAllUsers();
         }
 
     }, [blogsUpdated, myUserId])
 
+    useEffect(() => {
+        let myUserIdSerialized = localStorage.getItem("myUserId");
+      
+        if (myUserIdSerialized) {
+            let myUserIdDeSerialized = JSON.parse(localStorage.getItem("myUserId"));
+            setLoggedIn(true);
+            fetchUsersBlogs(myUserIdDeSerialized)
+            setMyUserId(myUserIdDeSerialized);
+
+            let myNameDeSerialized = JSON.parse(localStorage.getItem("yourName"));
+            setYourName(myNameDeSerialized)
+        }
+    }, [])
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     function handleNameInput(e) {
         setUsername(e.target.value)
@@ -60,9 +76,13 @@ export function Home() {
                 if (response.data.loggedIn === true) {
                     setLoggedIn(true);
                     setShowError(false);
+                    setUsername("");
+                    setPassword("");
                     fetchUsersBlogs(response.data.userID)
                     setYourName(username.charAt(0).toUpperCase() + username.slice(1))
-                    setMyUserId(response.data.userID) /////// DET HÄR KAN DU TA BORT SEN OCH FIXA MED LOCALSTORAGE ////////////////////////////////////////////////////////////////
+                    localStorage.setItem("myUserId", JSON.stringify(response.data.userID));
+                    localStorage.setItem("yourName", JSON.stringify(username.charAt(0).toUpperCase() + username.slice(1)));
+                    setMyUserId(response.data.userID)
                 } else if (response.data.loggedIn === false) {
                     setShowError(true);
                 }
@@ -77,7 +97,7 @@ export function Home() {
 
         axios.get("http://localhost:4000/blogs/" + userID)
             .then(response => {
-               setUsersBlogs([...response.data])
+                setUsersBlogs([...response.data])
             })
     }
 
@@ -106,6 +126,7 @@ export function Home() {
             axios.post("http://localhost:4000/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
+                    fetchAllUsers()
                     setCreatedUsername("");
                     setCreatedPassword("");
                 })
@@ -133,7 +154,6 @@ export function Home() {
                 text: newBlogText,
                 author: myUserId
             }
-            console.log(newBlog);
             axios.post("http://localhost:4000/blogs", newBlog, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
@@ -230,12 +250,12 @@ export function Home() {
 
     let allUsersList = allUsers.map((user, i) => {
         return (<div className="userContainer" key={i}>
-        
-            <div onClick={()=>{fetchUsersBlogs(user.id)}}>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</div>     
+
+            <div onClick={() => { fetchUsersBlogs(user.id) }}>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</div>
 
         </div>)
     })
-    
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,8 +264,7 @@ export function Home() {
     return (<>
         <header>
             <h1>BLOGGUS MAXIMUS</h1>
-            {loggedIn && <h2>Välkommen {yourName}</h2>}
-            <button>log out</button>
+            {loggedIn && <><h2>Välkommen {yourName}</h2><button onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
         </header>
         <main>
             {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div>}
@@ -271,6 +290,7 @@ export function Home() {
                     <input type="password" placeholder="password" value={password} onChange={handlePasswordInput} />
                     <button type="button" onClick={login}>login</button>
                 </form>
+                {showError && <div>Fel uppgifter! försök igen</div>}
 
                 <main>
                     <aside>
@@ -280,7 +300,7 @@ export function Home() {
                 </main>
             </div>
 
-            } {showError && <div>Fel uppgifter! försök igen</div>}
+            }
 
             {loggedIn && <main>
                 <div className="createBlogContainer">
