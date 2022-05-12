@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 export function Home() {
 
+    const [allUsers, setAllUsers] = useState([]);
     const [yourName, setYourName] = useState("User");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -15,7 +16,7 @@ export function Home() {
     const [newBlogText, setNewBlogText] = useState("");
     const [editBlogTitle, setEditBlogTitle] = useState("");
     const [editBlogText, setEditBlogText] = useState("");
-    const [editBlogID,setEditBlogID] = useState("");
+    const [editBlogID, setEditBlogID] = useState("");
     const [blogsUpdated, setBlogsUpdated] = useState(false);
     const [showEditBookingForm, setShowEditBookingForm] = useState(false);
 
@@ -29,7 +30,13 @@ export function Home() {
             fetchUsersBlogs(myUserId)
         }
 
-    }, [blogsUpdated])
+        if (myUserId === ""){
+            fetchAllUsers();
+        }
+
+    }, [blogsUpdated, myUserId])
+
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,9 +74,18 @@ export function Home() {
     }
 
     function fetchUsersBlogs(userID) {
+
         axios.get("http://localhost:4000/blogs/" + userID)
             .then(response => {
-                setUsersBlogs([...response.data])
+               setUsersBlogs([...response.data])
+            })
+    }
+
+    function fetchAllUsers() {
+
+        axios.get("http://localhost:4000/allusers/")
+            .then(response => {
+                setAllUsers([...response.data])
             })
     }
 
@@ -178,7 +194,7 @@ export function Home() {
                 setShowEditBookingForm(false);
                 setEditBlogTitle("")
                 setEditBlogText("")
-            
+
                 setBlogsUpdated(true);
                 setTimeout(() => {
                     setBlogsUpdated(false)
@@ -204,6 +220,23 @@ export function Home() {
         </div>)
     })
 
+    let usersBlogsListForGuestsHtml = usersBlogs.map((blog, i) => {
+        return (<div className="blogCard" key={i}>
+            <h3>{blog.title}</h3>
+            <div>{blog.text}</div>
+            <h6>{blog.created}</h6>
+        </div>)
+    })
+
+    let allUsersList = allUsers.map((user, i) => {
+        return (<div className="userContainer" key={i}>
+        
+            <div onClick={()=>{fetchUsersBlogs(user.id)}}>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</div>     
+
+        </div>)
+    })
+    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,6 +245,7 @@ export function Home() {
         <header>
             <h1>BLOGGUS MAXIMUS</h1>
             {loggedIn && <h2>Välkommen {yourName}</h2>}
+            <button>log out</button>
         </header>
         <main>
             {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div>}
@@ -237,7 +271,15 @@ export function Home() {
                     <input type="password" placeholder="password" value={password} onChange={handlePasswordInput} />
                     <button type="button" onClick={login}>login</button>
                 </form>
+
+                <main>
+                    <aside>
+                        <div>{allUsersList}</div>
+                        <div>{usersBlogsListForGuestsHtml}</div>
+                    </aside>
+                </main>
             </div>
+
             } {showError && <div>Fel uppgifter! försök igen</div>}
 
             {loggedIn && <main>
