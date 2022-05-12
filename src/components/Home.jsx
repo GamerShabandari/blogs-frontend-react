@@ -15,6 +15,7 @@ export function Home() {
     const [newBlogText, setNewBlogText] = useState("");
     const [editBlogTitle, setEditBlogTitle] = useState("");
     const [editBlogText, setEditBlogText] = useState("");
+    const [editBlogID,setEditBlogID] = useState("");
     const [blogsUpdated, setBlogsUpdated] = useState(false);
     const [showEditBookingForm, setShowEditBookingForm] = useState(false);
 
@@ -22,14 +23,16 @@ export function Home() {
     const [myUserId, setMyUserId] = useState(""); /////// OBS!  ändra den här till localstorage senare //////////
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        fetchUsersBlogs(myUserId)
+        if (myUserId.length > 0) {
+            fetchUsersBlogs(myUserId)
+        }
 
     }, [blogsUpdated])
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function handleNameInput(e) {
         setUsername(e.target.value)
@@ -133,23 +136,24 @@ export function Home() {
         }
     }
 
-    function deleteBlog(blogId){
+    function deleteBlog(blogId) {
 
         axios.delete("http://localhost:4000/blogs/" + blogId)
             .then(response => {
                 console.log(response.data);
                 setBlogsUpdated(true);
-                    setTimeout(() => {
-                        setBlogsUpdated(false)
-                    }, 1000)
+                setTimeout(() => {
+                    setBlogsUpdated(false)
+                }, 1000)
             })
     }
 
-    function editBlog(index){
+    function editBlog(index) {
         setShowEditBookingForm(true);
 
         setEditBlogTitle(usersBlogs[index].title)
         setEditBlogText(usersBlogs[index].text)
+        setEditBlogID(usersBlogs[index].id)
     }
 
     function handleEditBlogTitle(e) {
@@ -160,6 +164,33 @@ export function Home() {
         setEditBlogText(e.target.value)
     }
 
+    function saveEditedBlog() {
+        let editedBlog = {
+            id: editBlogID,
+            title: editBlogTitle,
+            text: editBlogText,
+            author: myUserId
+        }
+
+        axios.put("http://localhost:4000/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
+            .then(response => {
+                console.log(response.data);
+                setShowEditBookingForm(false);
+                setEditBlogTitle("")
+                setEditBlogText("")
+            
+                setBlogsUpdated(true);
+                setTimeout(() => {
+                    setBlogsUpdated(false)
+                }, 1000)
+            })
+            .catch(error => {
+                console.log(error);
+                alert("något gick snett i kommunikationen med servern")
+            })
+
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,8 +199,8 @@ export function Home() {
             <h3>{blog.title}</h3>
             <div>{blog.text}</div>
             <h6>{blog.created}</h6>
-            <button onClick={()=>{deleteBlog(blog.id)}}>X</button>
-            <button onClick={()=>{editBlog(i)}}>edit</button>
+            <button onClick={() => { deleteBlog(blog.id) }}>X</button>
+            <button onClick={() => { editBlog(i) }}>edit</button>
         </div>)
     })
 
@@ -180,12 +211,17 @@ export function Home() {
     return (<>
         <header>
             <h1>BLOGGUS MAXIMUS</h1>
-            {loggedIn && <h2>Välkommen {yourName}</h2> }
+            {loggedIn && <h2>Välkommen {yourName}</h2>}
         </header>
         <main>
-            {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div> }
+            {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div>}
 
-            {showEditBookingForm && <div className="editFormContainer"><input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle}/><textarea cols="30" rows="10" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea><button>save</button><button onClick={()=>{setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("")}}>cancel</button></div> }
+            {showEditBookingForm && <div className="editFormContainer">
+                <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
+                <textarea cols="30" rows="10" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea>
+                <button onClick={saveEditedBlog}>save</button>
+                <button onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}>cancel</button>
+            </div>}
 
             {!loggedIn && <div>
                 <form>
