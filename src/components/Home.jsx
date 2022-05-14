@@ -22,6 +22,8 @@ export function Home() {
     const [blogsUpdated, setBlogsUpdated] = useState(false);
     const [showEditBookingForm, setShowEditBookingForm] = useState(false);
     const [myUserId, setMyUserId] = useState("");
+    const [toggleCreateBlog, setToggleCreateBlog] = useState(false);
+    const [toggleCreateAccount, setToggleCreateAccount] = useState(false);
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,13 +239,14 @@ export function Home() {
             initial={{ opacity: 0, translateY: -30 }}
             animate={{ opacity: 1, translateY: 0 }}
             transition={{ ease: "easeInOut", duration: 0.2, delay: i * 0.4 }}
-
         >
             <h3>{blog.title}</h3>
             <div>{blog.text}</div>
             <h6>{blog.created}</h6>
-            <button className="deleteBtn" onClick={() => { deleteBlog(blog.id) }}>x</button>
-            <button className="editBtn" onClick={() => { editBlog(i) }}>edit</button>
+            <div className="cardButtons">
+                <button className="editBtn" onClick={() => { editBlog(i) }}>edit</button>
+                <button className="deleteBtn" onClick={() => { deleteBlog(blog.id) }}>x</button>
+            </div>
         </motion.div>)
     })
 
@@ -280,39 +283,41 @@ export function Home() {
 
     return (<>
         <header>
-            <h1>BLOGGUS MAXIMUS</h1>
-            {loggedIn && <><h2>Välkommen {yourName}</h2><button className="Btn" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
+            <h1 className="logo">Blogosphere</h1>
+            {loggedIn && <><h4>Welcome {yourName}</h4><button className="logoutBtn" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
         </header>
         <main>
-            {blogsUpdated && <div><h1>Bloggar Uppdaterade...</h1></div>}
+            {blogsUpdated && <div><h3>Blogs uppdated...</h3></div>}
 
             {showEditBookingForm && <div className="editFormContainer">
                 <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
                 <textarea cols="30" rows="40" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea>
-                <button className="Btn"  onClick={saveEditedBlog}>save</button>
-                <button className="Btn"  onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}>cancel</button>
+                <button className="Btn" onClick={saveEditedBlog}>save</button>
+                <button className="Btn" onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}>cancel</button>
             </div>}
 
-            {!loggedIn && <div>
-                <form>
-                    <h4>First time here? Create an account!</h4>
+            {!loggedIn && <div className="homeFormsContainer">
+                <h4>First time here? Create an account! <button onClick={()=>{ setToggleCreateAccount(!toggleCreateAccount) }}>+</button></h4>
+                {toggleCreateAccount && <form className="createAccountForm">
                     <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
                     <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
                     <button type="button" className="Btn" onClick={createUser}>create new user</button>
-                </form>
+                </form>}
 
-                <form>
-                    <h4>Allready a member, login below</h4>
+
+                <form className="loginForm">
                     <input type="text" placeholder="username" value={username} onChange={handleNameInput} />
                     <input type="password" placeholder="password" value={password} onChange={handlePasswordInput} />
                     <button className="Btn" type="button" onClick={login}>login</button>
                 </form>
-                {showError && <div>Fel uppgifter! försök igen</div>}
+                {showError && <div>Incorrect login, try again.</div>}
 
                 <main>
                     <aside>
-                        <div className="usersListContainer">{allUsersList}</div>
-                        <div>{usersBlogsListForGuestsHtml}</div>
+                    <h4 className="bloggersTitle">Our bloggers</h4>
+                        <div className="usersListContainer">
+                        {allUsersList}</div>
+                        <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
                     </aside>
                 </main>
             </div>
@@ -321,14 +326,14 @@ export function Home() {
 
             {loggedIn && <main>
                 <div className="createBlogContainer">
-                    <h3>Create New Post</h3>
-                    <form className="createBlogForm">
+                    <h3>Create New Post <button onClick={() => { setToggleCreateBlog(!toggleCreateBlog) }}>+</button> </h3>
+                    {toggleCreateBlog && <form className="createBlogForm">
                         <input type="text" placeholder="title" value={newBlogTitle} onChange={handleNewBlogTitle} />
-                        <textarea cols="30" rows="10" value={newBlogText} onChange={handleNewBlogText}></textarea>
-                        <button className="Btn" type="button" onClick={saveNewBlog}>spara</button>
-                    </form>
+                        <textarea cols="30" rows="20" value={newBlogText} onChange={handleNewBlogText}></textarea>
+                        <button className="Btn" type="button" onClick={saveNewBlog}>save</button>
+                    </form>}
                 </div>
-                <div>
+                <div className="blogPostContainer">
                     <h3>Your Posts:</h3>{usersBlogsListHtml}
                 </div>
             </main>
