@@ -11,6 +11,7 @@ export function Home() {
     const [password, setPassword] = useState("");
     const [createdUsername, setCreatedUsername] = useState("");
     const [createdPassword, setCreatedPassword] = useState("");
+    const [createUserError, setCreateUserError] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false);
     const [showError, setShowError] = useState(false);
     const [usersBlogs, setUsersBlogs] = useState([]);
@@ -123,6 +124,7 @@ export function Home() {
 
     function createUser() {
         if (createdUsername.length > 5 && createdPassword.length > 5) {
+            setCreateUserError(false);
             let newCreatedUser = {
                 name: createdUsername,
                 password: createdPassword
@@ -138,6 +140,9 @@ export function Home() {
                     console.log(error);
                     alert("något gick snett i kommunikationen med servern")
                 })
+        }
+        else {
+            setCreateUserError(true);
         }
 
     }
@@ -264,16 +269,15 @@ export function Home() {
     })
 
     let allUsersList = allUsers.map((user, i) => {
-        return (<div className="userContainer" key={i}>
+        return (<motion.div className="userContainer" key={i} initial={{ opacity: 0, translateY: -20 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{ ease: "easeInOut", duration: 0.4, delay: i * 0.4 }}>
 
-            <motion.div onClick={() => { fetchUsersBlogs(user.id) }}
-                initial={{ opacity: 0, translateY: -20 }}
-                animate={{ opacity: 1, translateY: 0 }}
-                transition={{ ease: "easeInOut", duration: 0.4, delay: i * 0.4 }}>
+            <motion.div onClick={() => { fetchUsersBlogs(user.id) }}>
                 {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
             </motion.div>
 
-        </div>)
+        </motion.div>)
     })
 
 
@@ -284,10 +288,10 @@ export function Home() {
     return (<>
         <header>
             <h1 className="logo">Blogosphere</h1>
-            {loggedIn && <><h4>Welcome {yourName}</h4><button className="logoutBtn" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
+            {loggedIn && <><h4 className="welcome">Welcome {yourName}</h4><button className="logoutBtn" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
         </header>
         <main>
-            {blogsUpdated && <div><h3>Blogs uppdated...</h3></div>}
+            {blogsUpdated && <div>Blogs uppdated...</div>}
 
             {showEditBookingForm && <div className="editFormContainer">
                 <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
@@ -297,11 +301,12 @@ export function Home() {
             </div>}
 
             {!loggedIn && <div className="homeFormsContainer">
-                <h4>First time here? Create an account! <button onClick={()=>{ setToggleCreateAccount(!toggleCreateAccount) }}>+</button></h4>
+                <h4>Create an account <button onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}>+</button></h4>
                 {toggleCreateAccount && <form className="createAccountForm">
                     <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
                     <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
                     <button type="button" className="Btn" onClick={createUser}>create new user</button>
+                    {createUserError && <div className="error">username and password must be atleast 6 characters</div>}
                 </form>}
 
 
@@ -310,13 +315,13 @@ export function Home() {
                     <input type="password" placeholder="password" value={password} onChange={handlePasswordInput} />
                     <button className="Btn" type="button" onClick={login}>login</button>
                 </form>
-                {showError && <div>Incorrect login, try again.</div>}
+                {showError && <div className="error">Incorrect login, try again.</div>}
 
                 <main>
                     <aside>
-                    <h4 className="bloggersTitle">Our bloggers</h4>
+                        <h4 className="bloggersTitle">Our bloggers</h4>
                         <div className="usersListContainer">
-                        {allUsersList}</div>
+                            {allUsersList}</div>
                         <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
                     </aside>
                 </main>
@@ -334,7 +339,7 @@ export function Home() {
                     </form>}
                 </div>
                 <div className="blogPostContainer">
-                    <h3>Your Posts:</h3>{usersBlogsListHtml}
+                    {usersBlogsListHtml}
                 </div>
             </main>
             }

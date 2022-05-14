@@ -1,6 +1,9 @@
 body{
-  background-color: aqua;
+  background-color: #2c333f;
   padding: 30px;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
 main{
@@ -8,6 +11,12 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  color: #ec2c4b;
+}
+
+main h3{
+  font-weight: 300;
 }
 
 header{
@@ -22,25 +31,30 @@ header{
   font-weight: 300;
   letter-spacing: 5px;
   margin: 0;
+  padding: 30px;
+  color: #ec2c4b;
 }
 
 .homeFormsContainer{
-  border: 2px solid purple;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 30px;
+  width: 100%;
 }
 .homeFormsContainer input{
-  border: 2px solid yellow;
+  border: none;
   width: 15rem;
   padding: 5px;
   border-radius: 5px;
 }
 
+.homeFormsContainer h4{
+  font-weight: 200;
+}
+
 .createAccountForm{
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +63,6 @@ header{
 }
 
 .loginForm{
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,7 +75,6 @@ header{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid blue;
   width: 90%;
 }
 
@@ -73,11 +85,10 @@ header{
   justify-content: center;
   gap: 10px;
   width: 100%;
-  border: 2px solid red;
+  
 }
 
 .createBlogForm input, textarea{
-  border: 1px solid yellow;
   border: none;
   border-radius: 5px;
   width: 90%;
@@ -89,7 +100,7 @@ header{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color: #e5ecef;
   border-radius: 5px;
   padding: 40px;
   margin: 40px;
@@ -97,11 +108,14 @@ header{
   transition: 0.3s;
   height: fit-content;
   width: 70%;
+  max-width: 1200px;
+  color: #2c333f;
 }
 .blogCard h3{
   font-weight: bold;
   letter-spacing: 4px;
   text-decoration: underline;
+  color: #ec2c4b;
 }
 
 .blogCard div{
@@ -110,8 +124,8 @@ header{
 }
 
 .blogCard h6{
-  background-color: black;
-  color: white;
+  background-color: #2c333f;
+  color: #e5ecef;
   padding: 5px;
   border-radius: 5px;
 }
@@ -127,11 +141,10 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
-  
   border: none;
   border-radius: 5px;
-  background-color:indianred;
-  color: white;
+  background-color:#ec2c4b;
+  color: #e5ecef;
   padding: 5px;
   cursor: pointer;
 }
@@ -140,11 +153,10 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
- 
   border: none;
   border-radius: 5px;
-  background-color:indianred;
-  color: white;
+  background-color:#2c333f;
+  color: #e5ecef;
   padding: 5px;
   cursor: pointer;
 }
@@ -155,10 +167,10 @@ header{
 }
 
 .editFormContainer{
-  border: 2px solid red;
-  background-color: white;
+  background-color: #e5ecef;
+  border-radius: 5px;
   position: fixed;
-  top: 50px;
+  top: 10rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -172,17 +184,18 @@ header{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 .editFormContainer textarea{
-  border: 2px solid blue;
+  border: 1px solid #ec2c4b;
+  width: 90%;
 }
 .editFormContainer input{
-  border: 2px solid blue;
-  width: 80%;
+  border: 1px solid #ec2c4b;
+  width: 90%;
   padding: 5px;
+  border-radius: 5px;
 }
 
 .usersListContainer{
-  padding: 20px;
-  border: 1px solid yellow;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -193,7 +206,7 @@ header{
 }
 
 .userContainer{
-  border: 2px solid purple;
+  background-color: #e5ecef;
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
@@ -205,7 +218,8 @@ header{
 }
 
 .bloggersTitle{
-  border: 2px solid green;
+  font-weight: 300;
+  letter-spacing: 3px;
   display: flex;
   justify-content: center;
   margin: 0;
@@ -213,9 +227,9 @@ header{
 }
 
 .Btn{
-  border: 1px solid whitesmoke;
+  border: 1px solid #e5ecef;
   border-radius: 5px;
-  background-color: whitesmoke;
+  background-color: #e5ecef;
   padding: 5px;
   cursor: pointer;
   transition: 0.2s;
@@ -230,21 +244,21 @@ header{
   position: absolute;
   top: 15px;
   right: 15px;
-  border: 1px solid whitesmoke;
   border-radius: 5px;
-  background-color: whitesmoke;
+  background-color: #e5ecef;
+  border: none;
   padding: 5px;
   cursor: pointer;
   transition: 0.2s;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
 }
 .logoutBtn:hover{
-  border: 1px solid black;
+  background-color: #ec2c4b;
+  color: #e5ecef;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .blogPostContainer{
-  border: 2px solid purple;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,9 +266,23 @@ header{
 }
 
 .GuestsBlogPostContainer{
-  border: 2px solid red;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   height: fit-content;
+  width: 100%;
+}
+
+.error{
+  background-color: #ec2c4b;
+  color: #e5ecef;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.welcome{
+  color: #e5ecef;
+  letter-spacing: 5px;
+  font-weight: 300;
 }
