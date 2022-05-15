@@ -302,7 +302,7 @@ export function Home() {
                 <textarea cols="30" rows="40" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea>
                 <div className="buttonsContainer">
                     <MdCancel className="deleteBtn animate__animated animate__flipInX  animate__delay-1s" onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}></MdCancel>
-                    <MdAdd className="editBtn animate__animated animate__flipInX  animate__delay-1s" onClick={saveEditedBlog}>save</MdAdd>
+                    <MdAdd className="editBtn animate__animated animate__flipInX  animate__delay-1s" onClick={saveEditedBlog}></MdAdd>
                 </div>
             </div>}
 
