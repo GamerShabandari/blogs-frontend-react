@@ -2,9 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "animate.css";
-import { MdLogin, MdLogout, MdNoteAdd, MdAdd, MdEditNote, MdDeleteForever, MdCancel } from "react-icons/md";
+import { MdLogin, MdLogout, MdNoteAdd, MdAdd, MdEditNote, MdDeleteForever, MdCancel, MdOutlineDateRange } from "react-icons/md";
 import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
-import { GrUpdate, GrGlobe } from "react-icons/gr"
+import { GrGlobe } from "react-icons/gr"
 
 
 export function Home() {
@@ -176,7 +176,7 @@ export function Home() {
                     setBlogsUpdated(true);
                     setTimeout(() => {
                         setBlogsUpdated(false)
-                    }, 1000)
+                    }, 2000)
                 })
                 .catch(error => {
                     console.log(error);
@@ -193,7 +193,7 @@ export function Home() {
                 setBlogsUpdated(true);
                 setTimeout(() => {
                     setBlogsUpdated(false)
-                }, 1000)
+                }, 2000)
             })
     }
 
@@ -231,7 +231,7 @@ export function Home() {
                 setBlogsUpdated(true);
                 setTimeout(() => {
                     setBlogsUpdated(false)
-                }, 1000)
+                }, 2000)
             })
             .catch(error => {
                 console.log(error);
@@ -251,7 +251,7 @@ export function Home() {
         >
             <h3>{blog.title}</h3>
             <div>{blog.text}</div>
-            <h6>{blog.created}</h6>
+            <h6><MdOutlineDateRange></MdOutlineDateRange> {blog.created}</h6>
             <div className="cardButtons">
                 <MdEditNote className="editBtn" onClick={() => { editBlog(i) }}></MdEditNote>
                 <MdDeleteForever className="deleteBtn" onClick={() => { deleteBlog(blog.id) }}></MdDeleteForever>
@@ -268,7 +268,7 @@ export function Home() {
         >
             <h3>{blog.title}</h3>
             <div>{blog.text}</div>
-            <h6>{blog.created}</h6>
+            <h6><MdOutlineDateRange></MdOutlineDateRange> {blog.created}</h6>
         </motion.div>)
     })
 
@@ -295,7 +295,7 @@ export function Home() {
             {loggedIn && <><h4 className="welcome  animate__animated animate__bounce">Welcome {yourName}</h4><MdLogout className="logoutBtn animate__animated animate__flipInX" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}></MdLogout></>}
         </header>
         <main>
-            {blogsUpdated && <GrUpdate className="loading"></GrUpdate>}
+            {blogsUpdated && <img src="write.gif" alt="loading icon" className="loading"/>}
 
             {showEditBookingForm && <div className="editFormContainer animate__animated animate__flipInX">
                 <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
