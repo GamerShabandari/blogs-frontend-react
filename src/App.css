@@ -13,6 +13,7 @@ main{
   align-items: center;
   width: 100%;
   color: #ec2c4b;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 main h3{
@@ -27,12 +28,28 @@ header{
 }
 
 .logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 3.5rem;
   font-weight: 300;
-  letter-spacing: 5px;
+  /* letter-spacing: 5px; */
   margin: 0;
   padding: 30px;
   color: #ec2c4b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.globe{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  font-size: 3rem;
+  margin: 0px;
+  padding: 0px;
+  -webkit-filter: grayscale(1) invert(1);
+filter: grayscale(1) invert(1);
 }
 
 .homeFormsContainer{
@@ -110,6 +127,7 @@ header{
   width: 70%;
   max-width: 1200px;
   color: #2c333f;
+  transition: 0.2s all ease-in-out;
 }
 .blogCard h3{
   font-weight: bold;
@@ -136,6 +154,7 @@ header{
  display: flex;
  justify-content: center;
  align-items: center;
+ gap: 5px;
 }
 .deleteBtn{
   display: flex;
@@ -147,6 +166,11 @@ header{
   color: #e5ecef;
   padding: 5px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s all ease-in-out;
+}
+.deleteBtn:hover{
+  transform: scale(1.08);
 }
 
 .editBtn{
@@ -159,6 +183,11 @@ header{
   color: #e5ecef;
   padding: 5px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s all ease-in-out;
+}
+.editBtn:hover{
+  transform: scale(1.08);
 }
 
 .blogCard:hover{
@@ -214,6 +243,9 @@ header{
   transition: 0.2s;
 }
 .userContainer:hover{
+  transform: scale(1.08);
+  background-color: #ec2c4b;
+  color: #e5ecef;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
@@ -227,7 +259,7 @@ header{
 }
 
 .Btn{
-  border: 1px solid #e5ecef;
+  border: none;
   border-radius: 5px;
   background-color: #e5ecef;
   padding: 5px;
@@ -236,7 +268,11 @@ header{
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
 }
 .Btn:hover{
-  border: 1px solid black;
+
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  transform: scale(1.08);
+  background-color: #ec2c4b;
+  color: #e5ecef;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
@@ -249,10 +285,11 @@ header{
   border: none;
   padding: 5px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.2s ease-in-out;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
 }
 .logoutBtn:hover{
+  transform: scale(1.08);
   background-color: #ec2c4b;
   color: #e5ecef;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
@@ -285,4 +322,23 @@ header{
   color: #e5ecef;
   letter-spacing: 5px;
   font-weight: 300;
+}
+
+.loading{
+  font-size: 1rem;
+}
+
+.createPost{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.buttonsContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }

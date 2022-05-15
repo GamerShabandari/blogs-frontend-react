@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import "animate.css";
+import { MdLogin, MdLogout, MdNoteAdd, MdAdd, MdEditNote, MdDeleteForever, MdCancel } from "react-icons/md";
+import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
+import { GrUpdate, GrGlobe } from "react-icons/gr"
 
 
 export function Home() {
@@ -249,8 +253,8 @@ export function Home() {
             <div>{blog.text}</div>
             <h6>{blog.created}</h6>
             <div className="cardButtons">
-                <button className="editBtn" onClick={() => { editBlog(i) }}>edit</button>
-                <button className="deleteBtn" onClick={() => { deleteBlog(blog.id) }}>x</button>
+                <MdEditNote className="editBtn" onClick={() => { editBlog(i) }}></MdEditNote>
+                <MdDeleteForever className="deleteBtn" onClick={() => { deleteBlog(blog.id) }}></MdDeleteForever>
             </div>
         </motion.div>)
     })
@@ -287,38 +291,42 @@ export function Home() {
 
     return (<>
         <header>
-            <h1 className="logo">Blogosphere</h1>
-            {loggedIn && <><h4 className="welcome">Welcome {yourName}</h4><button className="logoutBtn" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}>log out</button></>}
+            <h1 className="logo animate__animated animate__flipInX">Bl<GrGlobe className="globe"></GrGlobe>gosphere</h1>
+            {loggedIn && <><h4 className="welcome  animate__animated animate__bounce">Welcome {yourName}</h4><MdLogout className="logoutBtn animate__animated animate__flipInX" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}></MdLogout></>}
         </header>
         <main>
-            {blogsUpdated && <div>Blogs uppdated...</div>}
+            {blogsUpdated && <GrUpdate className="loading"></GrUpdate>}
 
-            {showEditBookingForm && <div className="editFormContainer">
+            {showEditBookingForm && <div className="editFormContainer animate__animated animate__flipInX">
                 <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
                 <textarea cols="30" rows="40" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea>
-                <button className="Btn" onClick={saveEditedBlog}>save</button>
-                <button className="Btn" onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}>cancel</button>
+                <div className="buttonsContainer">
+                    <MdCancel className="deleteBtn animate__animated animate__flipInX  animate__delay-1s" onClick={() => { setShowEditBookingForm(false); setEditBlogTitle(""); setEditBlogText("") }}></MdCancel>
+                    <MdAdd className="editBtn animate__animated animate__flipInX  animate__delay-1s" onClick={saveEditedBlog}>save</MdAdd>
+                </div>
             </div>}
 
             {!loggedIn && <div className="homeFormsContainer">
-                <h4>Create an account <button onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}>+</button></h4>
-                {toggleCreateAccount && <form className="createAccountForm">
+                <RiUserAddLine className="Btn" onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}></RiUserAddLine>
+                {toggleCreateAccount && <form className="createAccountForm  animate__animated animate__flipInX">
                     <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
                     <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
-                    <button type="button" className="Btn" onClick={createUser}>create new user</button>
-                    {createUserError && <div className="error">username and password must be atleast 6 characters</div>}
+                    <RiUserFollowLine className="Btn" onClick={createUser}></RiUserFollowLine>
+                    {createUserError && <div className="error animate__animated animate__bounceIn">username and password must be atleast 6 characters</div>}
                 </form>}
 
 
                 <form className="loginForm">
+                    <legend>Login</legend>
                     <input type="text" placeholder="username" value={username} onChange={handleNameInput} />
                     <input type="password" placeholder="password" value={password} onChange={handlePasswordInput} />
-                    <button className="Btn" type="button" onClick={login}>login</button>
+                    <MdLogin className="Btn" onClick={login}></MdLogin>
                 </form>
-                {showError && <div className="error">Incorrect login, try again.</div>}
+                {showError && <div className="error animate__animated animate__bounceIn">Incorrect login, try again.</div>}
 
                 <main>
                     <aside>
+
                         <h4 className="bloggersTitle">Our bloggers</h4>
                         <div className="usersListContainer">
                             {allUsersList}</div>
@@ -331,11 +339,11 @@ export function Home() {
 
             {loggedIn && <main>
                 <div className="createBlogContainer">
-                    <h3>Create New Post <button onClick={() => { setToggleCreateBlog(!toggleCreateBlog) }}>+</button> </h3>
-                    {toggleCreateBlog && <form className="createBlogForm">
+                    <h3 className="createPost" onClick={() => { setToggleCreateBlog(!toggleCreateBlog) }}>Create New Post <MdNoteAdd></MdNoteAdd> </h3>
+                    {toggleCreateBlog && <form className="createBlogForm animate__animated animate__flipInX">
                         <input type="text" placeholder="title" value={newBlogTitle} onChange={handleNewBlogTitle} />
                         <textarea cols="30" rows="20" value={newBlogText} onChange={handleNewBlogText}></textarea>
-                        <button className="Btn" type="button" onClick={saveNewBlog}>save</button>
+                        <MdAdd className="Btn animate__animated animate__flipInX  animate__delay-1s" type="button" onClick={saveNewBlog}>save</MdAdd>
                     </form>}
                 </div>
                 <div className="blogPostContainer">
