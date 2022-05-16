@@ -79,7 +79,7 @@ export function Home() {
             name: username,
             password: password
         }
-        axios.post("http://localhost:4000/login", usersLogin, { headers: { "content-type": "application/json" } })
+        axios.post("https://express-blogosphere-backend.herokuapp.com/login", usersLogin, { headers: { "content-type": "application/json" } })
             .then(response => {
 
                 if (response.data.loggedIn === true) {
@@ -104,7 +104,7 @@ export function Home() {
 
     function fetchUsersBlogs(userID) {
 
-        axios.get("http://localhost:4000/blogs/" + userID)
+        axios.get("https://express-blogosphere-backend.herokuapp.com/blogs/" + userID)
             .then(response => {
                 setUsersBlogs([...response.data])
             })
@@ -112,7 +112,7 @@ export function Home() {
 
     function fetchAllUsers() {
 
-        axios.get("http://localhost:4000/allusers/")
+        axios.get("https://express-blogosphere-backend.herokuapp.com/allusers/")
             .then(response => {
                 setAllUsers([...response.data])
             })
@@ -133,7 +133,7 @@ export function Home() {
                 name: createdUsername,
                 password: createdPassword
             }
-            axios.post("http://localhost:4000/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
+            axios.post("https://express-blogosphere-backend.herokuapp.com/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
                     fetchAllUsers()
@@ -167,7 +167,7 @@ export function Home() {
                 text: newBlogText,
                 author: myUserId
             }
-            axios.post("http://localhost:4000/blogs", newBlog, { headers: { "content-type": "application/json" } })
+            axios.post("https://express-blogosphere-backend.herokuapp.com/blogs", newBlog, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
                     setNewBlogTitle("");
@@ -187,7 +187,7 @@ export function Home() {
 
     function deleteBlog(blogId) {
 
-        axios.delete("http://localhost:4000/blogs/" + blogId)
+        axios.delete("https://express-blogosphere-backend.herokuapp.com/blogs/" + blogId)
             .then(response => {
                 console.log(response.data);
                 setBlogsUpdated(true);
@@ -221,7 +221,7 @@ export function Home() {
             author: myUserId
         }
 
-        axios.put("http://localhost:4000/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
+        axios.put("https://express-blogosphere-backend.herokuapp.com/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
             .then(response => {
                 console.log(response.data);
                 setShowEditBookingForm(false);
