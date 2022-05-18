@@ -5,7 +5,7 @@ Live URL: https://gamershabandari.github.io/blogs-frontend-react/
 
 Backend in Node.js + Express (backend-repo: https://github.com/GamerShabandari/express_login.git)
 
-server med MongoDB Atlas
+server with MongoDB Atlas
 
 ------------------------------------------------------------
 
