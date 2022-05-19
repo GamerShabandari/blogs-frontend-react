@@ -342,7 +342,7 @@ export function Home() {
                 <main>
                     <aside>
                     <h4 className="bloggersTitle">Our bloggers</h4>
-                        <Player
+                        <Player className="animate__animated animate__bounceIn"
                             autoplay
                             loop
                             src="https://assets1.lottiefiles.com/packages/lf20_y5kf5v3b.json"
