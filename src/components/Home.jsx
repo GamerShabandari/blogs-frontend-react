@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import "animate.css";
 import { MdLogin, MdLogout, MdNoteAdd, MdAdd, MdEditNote, MdDeleteForever, MdCancel, MdOutlineDateRange } from "react-icons/md";
 import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
-import { GrGlobe } from "react-icons/gr"
+import { GrGlobe } from "react-icons/gr";
+import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 
 export function Home() {
@@ -80,7 +81,7 @@ export function Home() {
             password: password
         }
         axios.post("https://express-blogosphere-backend.herokuapp.com/login", usersLogin, { headers: { "content-type": "application/json" } })
-        // axios.post("http://localhost:4000/login", usersLogin, { headers: { "content-type": "application/json" } })
+            // axios.post("http://localhost:4000/login", usersLogin, { headers: { "content-type": "application/json" } })
             .then(response => {
 
                 if (response.data.loggedIn === true) {
@@ -145,7 +146,7 @@ export function Home() {
                 password: createdPassword
             }
             axios.post("https://express-blogosphere-backend.herokuapp.com/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
-            // axios.post("http://localhost:4000/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
+                // axios.post("http://localhost:4000/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
                     fetchAllUsers()
@@ -180,7 +181,7 @@ export function Home() {
                 author: myUserId
             }
             axios.post("https://express-blogosphere-backend.herokuapp.com/blogs", newBlog, { headers: { "content-type": "application/json" } })
-            // axios.post("http://localhost:4000/blogs", newBlog, { headers: { "content-type": "application/json" } })
+                // axios.post("http://localhost:4000/blogs", newBlog, { headers: { "content-type": "application/json" } })
                 .then(response => {
                     console.log(response.data);
                     setNewBlogTitle("");
@@ -201,7 +202,7 @@ export function Home() {
     function deleteBlog(blogId) {
 
         axios.delete("https://express-blogosphere-backend.herokuapp.com/blogs/" + blogId)
-        // axios.delete("http://localhost:4000/blogs/" + blogId)
+            // axios.delete("http://localhost:4000/blogs/" + blogId)
             .then(response => {
                 console.log(response.data);
                 setBlogsUpdated(true);
@@ -236,7 +237,7 @@ export function Home() {
         }
 
         axios.put("https://express-blogosphere-backend.herokuapp.com/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
-        // axios.put("http://localhost:4000/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
+            // axios.put("http://localhost:4000/blogs/update", editedBlog, { headers: { "content-type": "application/json" } })
             .then(response => {
                 console.log(response.data);
                 setShowEditBookingForm(false);
@@ -340,8 +341,16 @@ export function Home() {
 
                 <main>
                     <aside>
-
-                        <h4 className="bloggersTitle">Our bloggers</h4>
+                    <h4 className="bloggersTitle">Our bloggers</h4>
+                        <Player
+                            autoplay
+                            loop
+                            src="https://assets1.lottiefiles.com/packages/lf20_y5kf5v3b.json"
+                            style={{ height: '200px', width: '200px' }}
+                        >
+                            <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
+                        </Player>
+                        
                         <div className="usersListContainer">
                             {allUsersList}</div>
                         <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
