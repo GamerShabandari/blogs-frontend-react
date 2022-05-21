@@ -11,6 +11,7 @@ import { Player, Controls } from '@lottiefiles/react-lottie-player';
 export function Home() {
 
     const [allUsers, setAllUsers] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(true);
     const [yourName, setYourName] = useState("User");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -43,6 +44,7 @@ export function Home() {
         }
 
         if (myUserId === "") {
+            setLoadingUsers(true)
             fetchAllUsers();
         }
 
@@ -122,6 +124,7 @@ export function Home() {
         axios.get("https://express-blogosphere-backend.herokuapp.com/allusers/")
             .then(response => {
                 setAllUsers([...response.data])
+                setLoadingUsers(false)
             })
 
         // axios.get("http://localhost:4000/allusers/")
@@ -341,19 +344,31 @@ export function Home() {
 
                 <main>
                     <aside>
-                    <h4 className="bloggersTitle">Our bloggers</h4>
-                        <Player className="animate__animated animate__bounceIn"
-                            autoplay
-                            loop
-                            src="https://assets1.lottiefiles.com/packages/lf20_y5kf5v3b.json"
-                            style={{ height: '200px', width: '200px' }}
-                        >
-                            <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
-                        </Player>
-                        
-                        <div className="usersListContainer">
-                            {allUsersList}</div>
-                        <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
+                        {loadingUsers &&
+                            <Player className="animate__animated animate__bounceIn"
+                                autoplay
+                                loop
+                                src="https://assets3.lottiefiles.com/private_files/lf30_rklapo5f.json"
+                                style={{ height: '200px', width: '200px' }}
+                            >
+                                <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
+                            </Player>
+                        }
+                        {!loadingUsers && <>
+                            <h4 className="bloggersTitle">Our bloggers</h4>
+                            <Player className="animate__animated animate__bounceIn"
+                                autoplay
+                                loop
+                                src="https://assets1.lottiefiles.com/packages/lf20_y5kf5v3b.json"
+                                style={{ height: '200px', width: '200px' }}
+                            >
+                                <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
+                            </Player>
+
+                            <div className="usersListContainer">
+                                {allUsersList}</div>
+                            <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
+                        </>}
                     </aside>
                 </main>
             </div>
