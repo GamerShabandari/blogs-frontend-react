@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import "animate.css";
 import { MdLogin, MdLogout, MdNoteAdd, MdAdd, MdEditNote, MdDeleteForever, MdCancel, MdOutlineDateRange } from "react-icons/md";
 import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
-import { GrGlobe } from "react-icons/gr";
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 
@@ -310,8 +309,27 @@ export function Home() {
 
     return (<>
         <header>
-            <h1 className="logo animate__animated animate__flipInX">Bl<GrGlobe className="globe"></GrGlobe>gosphere</h1>
-            {loggedIn && <><h4 className="welcome  animate__animated animate__bounce">Welcome {yourName}</h4><MdLogout className="logoutBtn animate__animated animate__flipInX" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}></MdLogout></>}
+            <h1 className="logo animate__animated animate__flipInX">
+                Bl
+                <Player className="globe animate__animated animate__bounceIn animate__delay-1s"
+                    autoplay
+                    loop
+                    src="https://assets1.lottiefiles.com/private_files/lf30_fngabhfr.json"
+                >
+                    <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
+                </Player>
+                gosphere
+            </h1>
+            {loggedIn && <><h4 className="welcome  animate__animated animate__bounce">Welcome {yourName}</h4><MdLogout className="logoutBtn animate__animated animate__flipInX" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}></MdLogout>
+                <Player className="animate__animated animate__bounceIn animate__delay-1s"
+                    autoplay
+                    keepLastFrame
+                    src="https://assets8.lottiefiles.com/packages/lf20_qf1pt6ua.json"
+                    style={{ height: '50px', width: '50px' }}
+                >
+                    <Controls visible={false} />
+                </Player>
+            </>}
         </header>
         <main>
 
@@ -348,7 +366,7 @@ export function Home() {
                             <Player className="animate__animated animate__bounceIn"
                                 autoplay
                                 loop
-                                src="https://assets3.lottiefiles.com/private_files/lf30_rklapo5f.json"
+                                src="https://assets4.lottiefiles.com/temp/lf20_XyXrJ3.json"
                                 style={{ height: '200px', width: '200px' }}
                             >
                                 <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
@@ -356,15 +374,6 @@ export function Home() {
                         }
                         {!loadingUsers && <>
                             <h4 className="bloggersTitle">Our bloggers</h4>
-                            <Player className="animate__animated animate__bounceIn"
-                                autoplay
-                                loop
-                                src="https://assets1.lottiefiles.com/packages/lf20_y5kf5v3b.json"
-                                style={{ height: '200px', width: '200px' }}
-                            >
-                                <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
-                            </Player>
-
                             <div className="usersListContainer">
                                 {allUsersList}</div>
                             <div className="GuestsBlogPostContainer">{usersBlogsListForGuestsHtml}</div>
@@ -378,7 +387,18 @@ export function Home() {
             {loggedIn && <main>
                 <div className="createBlogContainer">
                     <h3 className="createPost" onClick={() => { setToggleCreateBlog(!toggleCreateBlog) }}>Create New Post <MdNoteAdd></MdNoteAdd> </h3>
+
+
                     {toggleCreateBlog && <form className="createBlogForm animate__animated animate__flipInX">
+                        <Player className="animate__animated animate__bounceIn  animate__delay-1s"
+                            autoplay
+                            loop
+                            src="https://assets9.lottiefiles.com/packages/lf20_bqmgf5tx.json"
+                            style={{ height: '80px', width: '80px' }}
+                        >
+                            <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
+                        </Player>
+
                         <input type="text" placeholder="title" value={newBlogTitle} onChange={handleNewBlogTitle} />
                         <textarea cols="30" rows="20" value={newBlogText} onChange={handleNewBlogText}></textarea>
                         <MdAdd className="Btn animate__animated animate__flipInX  animate__delay-1s" type="button" onClick={saveNewBlog}>save</MdAdd>

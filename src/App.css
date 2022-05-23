@@ -36,7 +36,7 @@ header{
   align-items: center;
   font-size: 3.5rem;
   font-weight: 300;
-  /* letter-spacing: 5px; */
+  letter-spacing: 5px;
   margin: 0;
   padding: 30px;
   color: #ec2c4b;
@@ -47,12 +47,10 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  width: 70px;
   font-size: 3rem;
   margin: 0px;
   padding: 0px;
-  -webkit-filter: grayscale(1) invert(1);
-filter: grayscale(1) invert(1);
 }
 
 .homeFormsContainer{
