@@ -324,15 +324,13 @@ export function Home() {
     })
 
     let allUsersList = allUsers.map((user, i) => {
-        return (<motion.div className="userContainer" key={i} initial={{ opacity: 0, translateY: -20 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{ ease: "easeInOut", duration: 0.4, delay: i * 0.4 }}>
+        return (<div className="userContainer" key={i}>
 
-            <motion.div onClick={() => { fetchUsersBlogs(user.id) }}>
+            <div onClick={() => { fetchUsersBlogs(user.id) }}>
                 {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
-            </motion.div>
+            </div>
 
-        </motion.div>)
+        </div>)
     })
 
 
