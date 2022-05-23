@@ -55,8 +55,10 @@ export function Home() {
 
         if (myUserIdSerialized) {
             let myUserIdDeSerialized = JSON.parse(localStorage.getItem("myUserId"));
+            let mySubscribtionStatusDeSerialized = JSON.parse(localStorage.getItem("subscribtionStatus"));
+            setSubscribed(mySubscribtionStatusDeSerialized);
             setLoggedIn(true);
-            fetchUsersBlogs(myUserIdDeSerialized)
+            fetchUsersBlogs(myUserIdDeSerialized);
             setMyUserId(myUserIdDeSerialized);
 
             let myNameDeSerialized = JSON.parse(localStorage.getItem("yourName"));
@@ -94,6 +96,7 @@ export function Home() {
                     fetchUsersBlogs(response.data.userID)
                     setYourName(username.charAt(0).toUpperCase() + username.slice(1))
                     localStorage.setItem("myUserId", JSON.stringify(response.data.userID));
+                    localStorage.setItem("subscribtionStatus", JSON.stringify(response.data.subscribed));
                     localStorage.setItem("yourName", JSON.stringify(username.charAt(0).toUpperCase() + username.slice(1)));
                     setMyUserId(response.data.userID);
                     setSubscribed(response.data.subscribed);
@@ -266,8 +269,8 @@ export function Home() {
             // axios.post("http://localhost:4000/subscribe", { id: myUserId }, { headers: { "content-type": "application/json" } })
             .then(response => {
                 console.log(response.data);
-                setSubscribed(!subscribed)
-               
+                localStorage.setItem("subscribtionStatus", JSON.stringify(!subscribed));
+                setSubscribed(!subscribed);
             })
             .catch(error => {
                 console.log(error);
