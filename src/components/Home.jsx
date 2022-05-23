@@ -12,6 +12,7 @@ export function Home() {
     const [allUsers, setAllUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [yourName, setYourName] = useState("User");
+    const [subscribed, setSubscribed] = useState(false)
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [createdUsername, setCreatedUsername] = useState("");
@@ -94,7 +95,8 @@ export function Home() {
                     setYourName(username.charAt(0).toUpperCase() + username.slice(1))
                     localStorage.setItem("myUserId", JSON.stringify(response.data.userID));
                     localStorage.setItem("yourName", JSON.stringify(username.charAt(0).toUpperCase() + username.slice(1)));
-                    setMyUserId(response.data.userID)
+                    setMyUserId(response.data.userID);
+                    setSubscribed(response.data.subscribed);
                 } else if (response.data.loggedIn === false) {
                     setShowError(true);
                 }
@@ -258,6 +260,21 @@ export function Home() {
 
     }
 
+    function changeSubscriptionStatus() {
+
+        axios.post("https://express-blogosphere-backend.herokuapp.com/subscribe", { id: myUserId }, { headers: { "content-type": "application/json" } })
+            // axios.post("http://localhost:4000/subscribe", { id: myUserId }, { headers: { "content-type": "application/json" } })
+            .then(response => {
+                console.log(response.data);
+                setSubscribed(!subscribed)
+               
+            })
+            .catch(error => {
+                console.log(error);
+                alert("något gick snett i kommunikationen med servern")
+            })
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -329,6 +346,16 @@ export function Home() {
                 >
                     <Controls visible={false} />
                 </Player>
+
+                {subscribed && <>
+                    <h1>Thank you for subscribing to our newsletter.</h1>
+                    <button onClick={changeSubscriptionStatus}>unsubscribe</button>
+                </>}
+                {!subscribed && <>
+                    <h1>Would you like to subscribe to our newsletter?</h1>
+                    <button onClick={changeSubscriptionStatus}>subscribe</button>
+                </>}
+
             </>}
         </header>
         <main>
