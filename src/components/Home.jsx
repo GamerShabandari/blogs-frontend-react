@@ -17,7 +17,9 @@ export function Home() {
     const [password, setPassword] = useState("");
     const [createdUsername, setCreatedUsername] = useState("");
     const [createdPassword, setCreatedPassword] = useState("");
+    const [subscriptionChoice, setSubscriptionChoice] = useState(false)
     const [createUserError, setCreateUserError] = useState(false)
+    const [showCreatedUserMessage, setShowCreatedUserMessage] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false);
     const [showError, setShowError] = useState(false);
     const [usersBlogs, setUsersBlogs] = useState([]);
@@ -145,12 +147,17 @@ export function Home() {
         setCreatedPassword(e.target.value)
     }
 
+    function handleSubscription(e) {
+        setSubscriptionChoice(e.target.checked);
+    }
+
     function createUser() {
         if (createdUsername.length > 5 && createdPassword.length > 5) {
             setCreateUserError(false);
             let newCreatedUser = {
                 name: createdUsername,
-                password: createdPassword
+                password: createdPassword,
+                subscribed: subscriptionChoice
             }
             axios.post("https://express-blogosphere-backend.herokuapp.com/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
                 // axios.post("http://localhost:4000/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
@@ -159,6 +166,12 @@ export function Home() {
                     fetchAllUsers()
                     setCreatedUsername("");
                     setCreatedPassword("");
+                    setToggleCreateAccount(false)
+                    setShowCreatedUserMessage(true);
+
+                    setTimeout(() => {
+                        setShowCreatedUserMessage(false)
+                    }, 2000)
                 })
                 .catch(error => {
                     console.log(error);
@@ -351,12 +364,18 @@ export function Home() {
                 </Player>
 
                 {subscribed && <>
-                    <h1>Thank you for subscribing to our newsletter.</h1>
-                    <button onClick={changeSubscriptionStatus}>unsubscribe</button>
+                    <div className="subInfo animate__animated animate__fadeIn">
+                        <h5>Thank you for subscribing to our newsletter.</h5>
+                        <button className="Btn" onClick={changeSubscriptionStatus}>unsubscribe</button>
+                    </div>
+
                 </>}
                 {!subscribed && <>
-                    <h1>Would you like to subscribe to our newsletter?</h1>
-                    <button onClick={changeSubscriptionStatus}>subscribe</button>
+                    <div className="subInfo animate__animated animate__fadeIn">
+                        <h5>Would you like to subscribe to our newsletter?</h5>
+                        <button className="Btn" onClick={changeSubscriptionStatus}>subscribe</button>
+
+                    </div>
                 </>}
 
             </>}
@@ -374,12 +393,22 @@ export function Home() {
 
             {!loggedIn && <div className="homeFormsContainer">
                 <RiUserAddLine className="Btn" onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}></RiUserAddLine>
-                {toggleCreateAccount && <form className="createAccountForm  animate__animated animate__flipInX">
-                    <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
-                    <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
-                    <RiUserFollowLine className="Btn" onClick={createUser}></RiUserFollowLine>
-                    {createUserError && <div className="error animate__animated animate__bounceIn">username and password must be atleast 6 characters</div>}
-                </form>}
+                {showCreatedUserMessage && <h5 className="animate__animated animate__flipInX">new account created</h5>}
+                {toggleCreateAccount &&
+                    <>
+
+                        <form className="createAccountForm  animate__animated animate__flipInX">
+                            <div className="checkboxContainer">
+                                <input type="checkbox" id="subscriptionCheckbox" onChange={handleSubscription} />
+                                <label htmlFor="subscriptionCheckbox"> subscribe to newsletter</label>
+                            </div>
+                            <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
+                            <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
+                            <RiUserFollowLine className="Btn" onClick={createUser}></RiUserFollowLine>
+                            {createUserError && <div className="error animate__animated animate__bounceIn">username and password must be atleast 6 characters</div>}
+                        </form>
+                    </>
+                }
 
 
                 <form className="loginForm">
@@ -393,7 +422,7 @@ export function Home() {
                 <main>
                     <aside>
                         {loadingUsers &&
-                            <Player className="animate__animated animate__bounceIn"
+                            <Player className="loading animate__animated animate__bounceIn"
                                 autoplay
                                 loop
                                 src="https://assets4.lottiefiles.com/temp/lf20_XyXrJ3.json"
@@ -420,15 +449,6 @@ export function Home() {
 
 
                     {toggleCreateBlog && <form className="createBlogForm animate__animated animate__flipInX">
-                        <Player className="animate__animated animate__bounceIn  animate__delay-1s"
-                            autoplay
-                            loop
-                            src="https://assets9.lottiefiles.com/packages/lf20_bqmgf5tx.json"
-                            style={{ height: '80px', width: '80px' }}
-                        >
-                            <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
-                        </Player>
-
                         <input type="text" placeholder="title" value={newBlogTitle} onChange={handleNewBlogTitle} />
                         <textarea cols="30" rows="20" value={newBlogText} onChange={handleNewBlogText}></textarea>
                         <MdAdd className="Btn animate__animated animate__flipInX  animate__delay-1s" type="button" onClick={saveNewBlog}>save</MdAdd>

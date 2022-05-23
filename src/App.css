@@ -34,7 +34,7 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 300;
   letter-spacing: 5px;
   margin: 0;
@@ -47,7 +47,7 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
+  width: 60px;
   font-size: 3rem;
   margin: 0px;
   padding: 0px;
@@ -78,6 +78,15 @@ header{
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.checkboxContainer{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ec2c4b;
+}
+.checkboxContainer input{
+  width: fit-content;
 }
 
 .loginForm{
@@ -348,4 +357,16 @@ header{
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+.subInfo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.subInfo h5{
+  color: #e5ecef;
+  font-weight: 100;
 }
