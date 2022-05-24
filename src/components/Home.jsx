@@ -410,7 +410,7 @@ export function Home() {
                             <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
                             <input type="text" placeholder="email" value={createdEmail} onChange={handleCreatedEmailInput} />
                             <RiUserFollowLine className="Btn" onClick={createUser}></RiUserFollowLine>
-                            {createUserError && <div className="error animate__animated animate__bounceIn">username and password must be atleast 6 characters</div>}
+                            {createUserError && <div className="error animate__animated animate__bounceIn">username and password atleast 6 characters and valid email</div>}
                         </form>
                     </>
                 }
