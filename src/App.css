@@ -13,7 +13,7 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 100%;
+  width: 100%;
   min-height: 50vh;
   color: #ec2c4b;
   font-family: Arial, Helvetica, sans-serif;
@@ -29,7 +29,7 @@ header{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 20vh;
+  margin-top: 30px;
 }
 
 footer {
