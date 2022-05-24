@@ -1,5 +1,15 @@
-Frontend part of a backend school project. Frontend in React using Framer-motion, React-icons and Animate.css packages.
+Frontend part of a backend school project. Frontend in React
 Live URL: https://gamershabandari.github.io/blogs-frontend-react/
+
+npm-packages used:
+- react-lottie-player
+- animate.css
+- axios
+- framer-motion
+- react-icons
+
+run "npm start" to start app at localhost 3000
+
 
 ------------------------------------------------------------
 
