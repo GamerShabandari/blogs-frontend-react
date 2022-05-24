@@ -401,3 +401,10 @@ footer a:hover{
   color: #e5ecef;
   font-weight: 100;
 }
+
+.createdUser{
+  background-color: #ec2c4b;
+  color: #e5ecef;
+  padding: 10px;
+  border-radius: 5px;
+}

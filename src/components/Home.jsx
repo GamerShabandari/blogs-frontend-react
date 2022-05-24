@@ -172,6 +172,7 @@ export function Home() {
                     fetchAllUsers()
                     setCreatedUsername("");
                     setCreatedPassword("");
+                    setCreatedEmail("");
                     setToggleCreateAccount(false)
                     setShowCreatedUserMessage(true);
 
@@ -397,7 +398,7 @@ export function Home() {
 
             {!loggedIn && <div className="homeFormsContainer">
                 <RiUserAddLine className="Btn" onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}></RiUserAddLine>
-                {showCreatedUserMessage && <h5 className="animate__animated animate__flipInX">new account created</h5>}
+                {showCreatedUserMessage && <h5 className="createdUser animate__animated animate__flipInX">new account created</h5>}
                 {toggleCreateAccount &&
                     <>
 
