@@ -39,6 +39,7 @@ export function Home() {
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // if logged in get all your blogs if not logged in get all the registered users
     useEffect(() => {
 
         if (myUserId.length > 0) {
@@ -53,6 +54,7 @@ export function Home() {
 
     }, [blogsUpdated, myUserId])
 
+    // check localstorage if allready logged in or not
     useEffect(() => {
         let myUserIdSerialized = localStorage.getItem("myUserId");
 
@@ -73,15 +75,15 @@ export function Home() {
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    // handle input state for login
     function handleNameInput(e) {
         setUsername(e.target.value)
     }
-
+    // handle input state for login
     function handlePasswordInput(e) {
         setPassword(e.target.value)
     }
-
+    // login user, if success change all relevant state-variables and save userid to localstorage, else show error 
     function login() {
         let usersLogin = {
             name: username,
@@ -113,6 +115,7 @@ export function Home() {
             })
     }
 
+    // get all blogs for logged in user
     function fetchUsersBlogs(userID) {
 
         axios.get("https://express-blogosphere-backend.herokuapp.com/blogs/" + userID)
@@ -126,6 +129,7 @@ export function Home() {
         //     })
     }
 
+    // get all users to display in landingpage when not logged in
     function fetchAllUsers() {
 
         axios.get("https://express-blogosphere-backend.herokuapp.com/allusers/")
@@ -139,23 +143,23 @@ export function Home() {
         //         setAllUsers([...response.data])
         //     })
     }
-
+    // update username state-variable when creating a new user
     function handleCreatedNameInput(e) {
         setCreatedUsername(e.target.value)
     }
-
+    // update password state-variable when creating a new user
     function handleCreatedPasswordInput(e) {
         setCreatedPassword(e.target.value)
     }
-
+    // update email state-variable when creating a new user
     function handleCreatedEmailInput(e) {
         setCreatedEmail(e.target.value)
     }
-
+    // update subscription choice state-variable when creating a new user
     function handleSubscription(e) {
         setSubscriptionChoice(e.target.checked);
     }
-
+    // create a new user - if password and username are atleast 6 charachters and a valid email has been given. if success update all relevant state-variables and give user feedback
     function createUser() {
         if (createdUsername.length > 5 && createdPassword.length > 5 && /\S+@\S+\.\S+/.test(createdEmail)) {
             setCreateUserError(false);
@@ -190,15 +194,15 @@ export function Home() {
         }
 
     }
-
+    // handle tite state-variable when creating new blogpost
     function handleNewBlogTitle(e) {
         setNewBlogTitle(e.target.value)
     }
-
+    // handle text state-variable when creating new blogpost
     function handleNewBlogText(e) {
         setNewBlogText(e.target.value)
     }
-
+    // save new blogpost if both text and title input have a value
     function saveNewBlog() {
 
         if (newBlogTitle.length > 0 && newBlogText.length > 0) {
@@ -225,7 +229,7 @@ export function Home() {
                 })
         }
     }
-
+    // delete chosen blogpost
     function deleteBlog(blogId) {
 
         axios.delete("https://express-blogosphere-backend.herokuapp.com/blogs/" + blogId)
@@ -238,7 +242,7 @@ export function Home() {
                 }, 2000)
             })
     }
-
+    // keep track and update all inputs to use for updating blogpost 
     function editBlog(index) {
         setShowEditBookingForm(true);
 
@@ -246,15 +250,15 @@ export function Home() {
         setEditBlogText(usersBlogs[index].text)
         setEditBlogID(usersBlogs[index].id)
     }
-
+    // handle edited blogpost title
     function handleEditBlogTitle(e) {
         setEditBlogTitle(e.target.value)
     }
-
+    // handle edited blogpost text
     function handleEditBlogText(e) {
         setEditBlogText(e.target.value)
     }
-
+    // save/post edited blogpost to server and give user feedback
     function saveEditedBlog() {
         let editedBlog = {
             id: editBlogID,
@@ -282,7 +286,7 @@ export function Home() {
             })
 
     }
-
+    // let user change subscription status 
     function changeSubscriptionStatus() {
 
         axios.post("https://express-blogosphere-backend.herokuapp.com/subscribe", { id: myUserId }, { headers: { "content-type": "application/json" } })
@@ -301,6 +305,7 @@ export function Home() {
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // JSX list of logged in users all blogpost 
     let usersBlogsListHtml = usersBlogs.map((blog, i) => {
         return (<motion.div className="blogCard" key={i}
             initial={{ opacity: 0, translateY: -30 }}
@@ -316,7 +321,7 @@ export function Home() {
             </div>
         </motion.div>)
     })
-
+    // JSX list of a chosen users all blogpost when guest is browsing at landingpage
     let usersBlogsListForGuestsHtml = usersBlogs.map((blog, i) => {
         return (<motion.div className="blogCard"
             key={i}
@@ -329,7 +334,7 @@ export function Home() {
             <h6><MdOutlineDateRange></MdOutlineDateRange> {blog.created}</h6>
         </motion.div>)
     })
-
+    // JSX list of all registered users on site
     let allUsersList = allUsers.map((user, i) => {
         return (<div className="userContainer" key={i}>
 
@@ -346,7 +351,8 @@ export function Home() {
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (<>
-        <header>
+
+        <header> {/* header with logo and animated globe */}
             <h1 className="logo animate__animated animate__flipInX">
                 Bl
                 <Player className="globe animate__animated animate__bounceIn animate__delay-1s"
@@ -358,6 +364,9 @@ export function Home() {
                 </Player>
                 gosphere
             </h1>
+
+
+            {/* if logged in show this welcome section  */}
             {loggedIn && <><h4 className="welcome  animate__animated animate__bounce">Welcome {yourName}</h4><MdLogout className="logoutBtn animate__animated animate__flipInX" onClick={() => { setLoggedIn(false); setUsersBlogs([]); localStorage.removeItem("myUserId"); localStorage.removeItem("yourName") }}></MdLogout>
                 <Player className="animate__animated animate__bounceIn animate__delay-1s"
                     autoplay
@@ -387,6 +396,7 @@ export function Home() {
         </header>
         <main>
 
+            {/* form for editing blogpost  */}
             {showEditBookingForm && <div className="editFormContainer animate__animated animate__flipInX">
                 <input type="text" placeholder="title" value={editBlogTitle} onChange={handleEditBlogTitle} />
                 <textarea cols="30" rows="40" placeholder="text" value={editBlogText} onChange={handleEditBlogText}></textarea>
@@ -396,12 +406,15 @@ export function Home() {
                 </div>
             </div>}
 
+
+            {/* if not logged in show this section containing create-user form and login-form */}
             {!loggedIn && <div className="homeFormsContainer">
                 <RiUserAddLine className="Btn" onClick={() => { setToggleCreateAccount(!toggleCreateAccount) }}></RiUserAddLine>
                 {showCreatedUserMessage && <h5 className="createdUser animate__animated animate__flipInX">new account created</h5>}
+
+                {/* create-user form  */}
                 {toggleCreateAccount &&
                     <>
-
                         <form className="createAccountForm  animate__animated animate__flipInX">
                             <div className="checkboxContainer">
                                 <input type="checkbox" id="subscriptionCheckbox" onChange={handleSubscription} />
@@ -416,7 +429,7 @@ export function Home() {
                     </>
                 }
 
-
+                {/* login form  */}
                 <form className="loginForm">
                     <legend>Login</legend>
                     <input type="text" placeholder="username" value={username} onChange={handleNameInput} />
@@ -425,6 +438,7 @@ export function Home() {
                 </form>
                 {showError && <div className="error animate__animated animate__bounceIn">Incorrect login, try again.</div>}
 
+                {/* loading animation and section with all bloggers on site  */}
                 <main>
                     <aside>
                         {loadingUsers &&
@@ -449,6 +463,7 @@ export function Home() {
 
             }
 
+            {/* if not logged in show this create new blog section and display all users blogpost   */}
             {loggedIn && <main>
                 <div className="createBlogContainer">
                     <h3 className="createPost" onClick={() => { setToggleCreateBlog(!toggleCreateBlog) }}>Create New Post <MdNoteAdd></MdNoteAdd> </h3>
@@ -466,6 +481,8 @@ export function Home() {
             </main>
             }
         </main>
+
+        {/* footer with link to admin login  */}
         <footer>
             <a href="https://express-blogosphere-backend.herokuapp.com/login">Admin login</a>
         </footer>
