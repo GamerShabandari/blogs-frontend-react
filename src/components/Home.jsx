@@ -307,7 +307,7 @@ export function Home() {
             transition={{ ease: "easeInOut", duration: 0.2, delay: i * 0.4 }}
         >
             <h3>{blog.title}</h3>
-            <div>{blog.text}</div>
+            <p>{blog.text}</p>
             <h6><MdOutlineDateRange></MdOutlineDateRange> {blog.created}</h6>
             <div className="cardButtons">
                 <MdEditNote className="editBtn" onClick={() => { editBlog(i) }}></MdEditNote>
@@ -324,7 +324,7 @@ export function Home() {
             transition={{ ease: "easeInOut", duration: 0.3, delay: i * 0.3 }}
         >
             <h3>{blog.title}</h3>
-            <div>{blog.text}</div>
+            <p>{blog.text}</p>
             <h6><MdOutlineDateRange></MdOutlineDateRange> {blog.created}</h6>
         </motion.div>)
     })

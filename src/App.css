@@ -174,7 +174,10 @@ footer a:hover{
   color: #ec2c4b;
 }
 
-.blogCard div{
+.blogCard p{
+  white-space: pre-wrap;
+  width: 90%;
+  height: fit-content;
   font-weight: 200;
   line-height: 25px;
 }
