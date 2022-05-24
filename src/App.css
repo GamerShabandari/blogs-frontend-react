@@ -32,6 +32,7 @@ header{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 2px solid blue;
 }
 
 footer {
@@ -65,6 +66,7 @@ footer a:hover{
   padding: 30px;
   color: #ec2c4b;
   font-family: Arial, Helvetica, sans-serif;
+  border: 2px solid green;
 }
 
 .globe{
