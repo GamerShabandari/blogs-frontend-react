@@ -458,5 +458,8 @@ export function Home() {
             </main>
             }
         </main>
+        <footer>
+            <a href="https://express-blogosphere-backend.herokuapp.com/login">Admin login</a>
+        </footer>
     </>)
 }
