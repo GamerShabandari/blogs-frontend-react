@@ -17,6 +17,7 @@ export function Home() {
     const [password, setPassword] = useState("");
     const [createdUsername, setCreatedUsername] = useState("");
     const [createdPassword, setCreatedPassword] = useState("");
+    const [createdEmail, setCreatedEmail] = useState("");
     const [subscriptionChoice, setSubscriptionChoice] = useState(false)
     const [createUserError, setCreateUserError] = useState(false)
     const [showCreatedUserMessage, setShowCreatedUserMessage] = useState(false)
@@ -147,16 +148,21 @@ export function Home() {
         setCreatedPassword(e.target.value)
     }
 
+    function handleCreatedEmailInput(e) {
+        setCreatedEmail(e.target.value)
+    }
+
     function handleSubscription(e) {
         setSubscriptionChoice(e.target.checked);
     }
 
     function createUser() {
-        if (createdUsername.length > 5 && createdPassword.length > 5) {
+        if (createdUsername.length > 5 && createdPassword.length > 5 && /\S+@\S+\.\S+/.test(createdEmail)) {
             setCreateUserError(false);
             let newCreatedUser = {
                 name: createdUsername,
                 password: createdPassword,
+                email: createdEmail,
                 subscribed: subscriptionChoice
             }
             axios.post("https://express-blogosphere-backend.herokuapp.com/adduser", newCreatedUser, { headers: { "content-type": "application/json" } })
@@ -402,6 +408,7 @@ export function Home() {
                             </div>
                             <input type="text" placeholder="username (atleast 6 characters)" value={createdUsername} onChange={handleCreatedNameInput} />
                             <input type="password" placeholder="password (atleast 6 characters)" value={createdPassword} onChange={handleCreatedPasswordInput} />
+                            <input type="text" placeholder="email" value={createdEmail} onChange={handleCreatedEmailInput} />
                             <RiUserFollowLine className="Btn" onClick={createUser}></RiUserFollowLine>
                             {createUserError && <div className="error animate__animated animate__bounceIn">username and password must be atleast 6 characters</div>}
                         </form>
