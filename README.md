@@ -8,7 +8,8 @@ npm-packages used:
 - framer-motion
 - react-icons
 
-run "npm start" to start app at localhost 3000
+first type "npm i" in console to install all dependencies
+then run "npm start" to start app application at localhost 3000
 
 
 ------------------------------------------------------------
